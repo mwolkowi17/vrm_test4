@@ -95,3 +95,9 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.actionButtons{
+  margin-top: 10px;
+}
+/* #stop_button{
+  
+} */

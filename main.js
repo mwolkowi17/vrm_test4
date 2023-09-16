@@ -6,12 +6,51 @@ import { VRMLoaderPlugin, VRMUtils } from "@pixiv/three-vrm";
 
 
 let stear = false;
-let actionbutton = document.getElementById("button");
+
+//stop_start_buttons
+const actionbutton = document.getElementById("start_button");
 actionbutton.addEventListener("click", function () {
  console.log('clicked');
  stear = true;
- setTimeout(()=>{stear=false},1500)
+ //setTimeout(()=>{stear=false},2000)
   })
+
+const stopbutton = document.getElementById("stop_button");
+stopbutton.addEventListener('click',function(){
+  console.log('stop')
+  stear = stop
+})
+
+//mouth expression colection
+const mouths=['aa','ee','ih','oh','ou']
+let mouthselected = mouths[0]
+
+//mounth expression type controll handlers
+const aabutton = document.getElementById('aa_button')
+aabutton.addEventListener('click',function(){
+  console.log(mouths[0])
+  mouthselected = mouths[0]
+})
+const eebutton = document.getElementById('ee_button')
+eebutton.addEventListener('click',function(){
+  console.log(mouths[1])
+  mouthselected = mouths[1]
+})
+const ihbutton = document.getElementById('ih_button')
+ihbutton.addEventListener('click',function(){
+  console.log(mouths[2])
+  mouthselected = mouths[2]
+})
+const ohbutton = document.getElementById('oh_button')
+ohbutton.addEventListener('click',function(){
+  console.log(mouths[3])
+  mouthselected = mouths[3]
+})
+const oubutton = document.getElementById('ou_button')
+oubutton.addEventListener('click',function(){
+  console.log(mouths[4])
+  mouthselected = mouths[4]
+})
 // renderer
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -20,12 +59,13 @@ document.body.appendChild( renderer.domElement );
 
 // camera
 const camera = new THREE.PerspectiveCamera( 30.0, window.innerWidth / window.innerHeight, 0.1, 20.0 );
-camera.position.set( 0.0, 1.0, 3.0 );
+camera.position.set( 0.0, 1.5, 1.0 );
+//camera.target.
 
 // camera controls
 const controls = new OrbitControls( camera, renderer.domElement );
 controls.screenSpacePanning = true;
-controls.target.set( 0.0, 1.0, 0.0 );
+controls.target.set( 0.0, 1.3, 0.0 );
 controls.update();
 
 // scene
@@ -100,9 +140,11 @@ function animate() {
 
     // tweak expressions
     const s = Math.sin( Math.PI * clock.elapsedTime );
-    currentVrm.expressionManager.setValue( 'oh', 0.1 + 0.5 * s );
+    currentVrm.expressionManager.setValue( 'blinkLeft', 0.5 - 0.5 * s );
     if(stear===true){
-      currentVrm.expressionManager.setValue( 'blinkLeft', 0.5 - 0.5 * s );
+      
+      currentVrm.expressionManager.setValue( mouthselected, 0.1 + 0.5 * s );
+      
     }
     
 
@@ -110,7 +152,7 @@ function animate() {
     currentVrm.update( deltaTime );
 
   }
-
+  
   renderer.render( scene, camera );
 
 }
